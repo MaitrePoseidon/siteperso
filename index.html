@@ -32,6 +32,16 @@
     a {
       color: #4FC3F7;
     }
+    .live-status {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+    .live {
+      color: #00ff00;
+    }
+    .offline {
+      color: #ff0000;
+    }
   </style>
 </head>
 <body>
@@ -51,13 +61,42 @@
     </section>
 
     <section>
-      <h2>🔴 Mon Stream en Direct</h2>
+      <h2>🔴 Mon Stream Twitch</h2>
+      <p id="status" class="live-status">⏳ Chargement du statut du stream...</p>
       <iframe 
+        id="twitch-embed"
         src="https://player.twitch.tv/?channel=toqahk9qg9i4mpgxt5gq5p8f4i38qm&parent=maitreposeidon.github.io" 
         allowfullscreen>
       </iframe>
     </section>
   </div>
+
+  <script>
+    async function checkTwitchLive() {
+      const clientId = "kimne78kx3ncx6brgo4mv6wki5h1ko"; // Public client_id used by Twitch embed
+      const channel = "toqahk9qg9i4mpgxt5gq5p8f4i38qm";
+      const url = `https://api.twitch.tv/helix/streams?user_login=${channel}`;
+
+      const response = await fetch(url, {
+        headers: {
+          "Client-ID": clientId
+        }
+      });
+
+      const data = await response.json();
+      const statusElem = document.getElementById("status");
+
+      if (data.data && data.data.length > 0) {
+        statusElem.textContent = "🟢 En direct maintenant !";
+        statusElem.classList.add("live");
+      } else {
+        statusElem.textContent = "🔴 Hors ligne pour le moment.";
+        statusElem.classList.add("offline");
+      }
+    }
+
+    checkTwitchLive();
+  </script>
 
 </body>
 </html>

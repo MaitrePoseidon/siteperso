@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maitre Poseidon | Stats Rainbow Six Siege & Stream</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .stats, .stream {
+            margin: 20px 0;
+        }
+        .stats p, .stream p {
+            font-size: 18px;
+        }
+        iframe {
+            width: 100%;
+            height: 480px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Maitre Poseidon - Stats Rainbow Six Siege & Stream</h1>
+    </header>
+
+    <div class="content">
+        <section class="stats">
+            <h2>Mes Stats R6</h2>
+            <div id="r6-data">
+                <p>Chargement des stats...</p>
+            </div>
+        </section>
+
+        <section class="stream">
+            <h2>Mon Stream en Direct</h2>
+            <iframe src="https://player.twitch.tv/?channel=toqahk9qg9i4mpgxt5gq5p8f4i38qm&parent=www.monsite.com" frameborder="0" allowfullscreen="true"></iframe>
+        </section>
+    </div>
+
+    <script>
+        // Code pour récupérer les stats depuis R6 Tracker API
+        fetch('https://api.r6tracker.com/api/v1/players/Ubisoft/Maitre_poseidon')
+            .then(response => response.json())
+            .then(data => {
+                const statsElement = document.getElementById('r6-data');
+                statsElement.innerHTML = `
+                    <p>Rang: ${data.rank}</p>
+                    <p>K/D Ratio: ${data.kd}</p>
+                    <p>Victoires: ${data.wins}</p>
+                    <p>Défaites: ${data.losses}</p>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('r6-data').innerHTML = '<p>Erreur lors de la récupération des données.</p>';
+            });
+    </script>
+
+</body>
+</html>
